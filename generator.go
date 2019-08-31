@@ -143,18 +143,20 @@ func (g Generator) getClass(c string) (string, error) {
 	case ":digit:":
 		out = numeric
 	case ":print:":
+		fallthrough
+	case ":graph:":
 		c, err := g.getClass(":cntrl:")
 		if err != nil {
 			return "", err
 		}
 		out = g.filter(g.getRange(*g.minRune, *g.maxRune), c)
+
 	case ":upper:":
 		out = upper
 	case ":blank:":
 		out = " \t"
 	case ":word:":
 		out = lower + upper + numeric + "_"
-	case ":graph:":
 	case ":punct:":
 		out = punct
 	case ":xdigit:":

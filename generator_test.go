@@ -14,8 +14,8 @@ func TestGenerator(t *testing.T) {
 		{"[]", ""},
 		{"[-]", "-"},
 		{"[]abc]", "]abc"},
-		// Characterw
-		//{"[\\]", "\\"},
+		// Character
+		{"[\u0e010-2]", "ก012"},
 		// Not
 		{"[^:cntrl::punct:]", " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"},
 		{"[^-:cntrl::digit:]", " !\"#$%&'()*+,./:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"},
@@ -26,11 +26,13 @@ func TestGenerator(t *testing.T) {
 		{"[:digit:]", "0123456789"},
 		{"[:space:]", " \t\n\r\f\v"},
 		{"[:blank:]", " \t"},
+		{"[:word:]", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"},
 		{"[:cntrl:]", "\x00\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\u007f"},
 		{"[:lower:]", "abcdefghijklmnopqrstuvwxyz"},
 		{"[:upper:]", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
 		{"[:digit::upper:]", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
 		{"[:print:]", " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"},
+		{"[:graph:]", " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"},
 		{"[:punct:]", "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]"},
 		{"[:xdigit:]", "abcdefABCDEF0123456789"},
 		{"[:digit::punct::upper:]", "0123456789!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
