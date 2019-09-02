@@ -1,4 +1,4 @@
-module src.userspace.com.au/brechars
+module src.userspace.com.au/bechars
 
 go 1.12
 
