@@ -131,7 +131,7 @@ func (g Generator) getClass(c string) (string, error) {
 	var out string
 	switch c {
 	case ":alnum:":
-		out = lower + upper + numeric
+		out = numeric + upper + lower
 	case ":cntrl:":
 		out = g.getRange('\u0000', '\u001F') + "\u007F"
 	case ":lower:":
@@ -139,7 +139,7 @@ func (g Generator) getClass(c string) (string, error) {
 	case ":space:":
 		out = space
 	case ":alpha:":
-		out = lower + upper
+		out = upper + lower
 	case ":digit:":
 		out = numeric
 	case ":print:":
@@ -156,7 +156,11 @@ func (g Generator) getClass(c string) (string, error) {
 	case ":blank:":
 		out = " \t"
 	case ":word:":
-		out = lower + upper + numeric + "_"
+		c, err := g.getClass(":alnum:")
+		if err != nil {
+			return "", err
+		}
+		out = c + "_"
 	case ":punct:":
 		out = punct
 	case ":xdigit:":
