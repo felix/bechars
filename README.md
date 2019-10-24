@@ -17,6 +17,7 @@ gen, _ := bechars.New()
 rng, _ := gen.Generate("[:print:]")
 fmt.Println(rng) // => " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
+// Unicode characters
 rng, _ = gen.Generate("[\u0e010-2]")
 fmt.Println(rng) // => "ก012"
 
@@ -24,10 +25,12 @@ rng, _ = gen.Generate("[:punct:]")
 fmt.Println(rng) // => "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]"
 ```
 
-The generate can also be configured:
+The generator can also be configured:
 
 ```go
 gen, _ := bechars.New(MinRune('a'), MaxRune('z'))
 rng, _ := gen.Generate("[^:cntrl::punct:]")
 fmt.Println(rng) // => "abcdefghijklmnopqrstuvwxyz"
 ```
+
+See the tests for more examples.
