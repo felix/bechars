@@ -1,4 +1,4 @@
-package brechars
+package bechars
 
 import (
 	"src.userspace.com.au/felix/lexer"
@@ -23,11 +23,11 @@ func startState(l *lexer.Lexer) lexer.StateFunc {
 		return l.Error("expecting [")
 	}
 	l.Emit(tBREStart)
-	return breFirstState
+	return beFirstState
 }
 
 // Handle the first characters of the BRE.
-func breFirstState(l *lexer.Lexer) lexer.StateFunc {
+func beFirstState(l *lexer.Lexer) lexer.StateFunc {
 	switch l.Next() {
 	case '^':
 		l.Emit(tNot)
@@ -35,7 +35,7 @@ func breFirstState(l *lexer.Lexer) lexer.StateFunc {
 		if l.Accept("-]") {
 			l.Emit(tCharacter)
 		}
-		return breState
+		return beState
 	case ']':
 		// Check for empty BRE
 		if l.Peek() == lexer.EOFRune {
@@ -43,17 +43,17 @@ func breFirstState(l *lexer.Lexer) lexer.StateFunc {
 			return nil
 		}
 		l.Emit(tCharacter)
-		return breState
+		return beState
 	case '-':
 		l.Emit(tCharacter)
-		return breState
+		return beState
 	default:
 		l.Backup()
-		return breState
+		return beState
 	}
 }
 
-func breState(l *lexer.Lexer) lexer.StateFunc {
+func beState(l *lexer.Lexer) lexer.StateFunc {
 	switch r := l.Next(); {
 	case r == ']':
 		l.Emit(tBREEnd)
@@ -67,7 +67,7 @@ func breState(l *lexer.Lexer) lexer.StateFunc {
 			return unicodeState
 		}
 		l.Emit(tCharacter)
-		return breState
+		return beState
 	case r == lexer.EOFRune:
 		return l.Error("parse error, unexpected EOF")
 	default:
@@ -83,7 +83,7 @@ func breState(l *lexer.Lexer) lexer.StateFunc {
 		} else {
 			l.Emit(tCharacter)
 		}
-		return breState
+		return beState
 	}
 }
 
@@ -94,7 +94,7 @@ func classState(l *lexer.Lexer) lexer.StateFunc {
 		return l.Error("parse error, expecting ':'")
 	}
 	l.Emit(tClass)
-	return breState
+	return beState
 }
 
 func unicodeState(l *lexer.Lexer) lexer.StateFunc {
@@ -102,5 +102,5 @@ func unicodeState(l *lexer.Lexer) lexer.StateFunc {
 	if n := l.AcceptRun("0123456789abcdef"); n > 0 {
 		l.Emit(tCharacter)
 	}
-	return breState
+	return beState
 }

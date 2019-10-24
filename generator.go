@@ -1,4 +1,4 @@
-package brechars
+package bechars
 
 import (
 	"fmt"
