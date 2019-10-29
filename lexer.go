@@ -1,7 +1,7 @@
 package bechars
 
 import (
-	"src.userspace.com.au/felix/lexer"
+	"src.userspace.com.au/lexer"
 )
 
 const (

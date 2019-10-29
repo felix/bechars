@@ -1,8 +1,8 @@
 
 .PHONY: test
 test: lint ## Run tests with coverage
-	go test -race -short -cover -coverprofile coverage.txt ./...
-	go tool cover -html=coverage.txt -o coverage.html
+	go test -race -short -cover -coverprofile coverage.txt ./... \
+		&& go tool cover -func=coverage.txt
 
 .PHONY: lint
 lint: ## Run the code linter

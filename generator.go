@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"src.userspace.com.au/felix/lexer"
+	"src.userspace.com.au/lexer"
 )
 
 const (
