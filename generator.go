@@ -3,6 +3,7 @@ package bechars
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"src.userspace.com.au/lexer"
 )
@@ -22,6 +23,7 @@ type Generator struct {
 	tok     *lexer.Token
 	maxRune *rune
 	minRune *rune
+	graphic bool
 }
 
 // Option functions allows configuration of the generator.
@@ -50,6 +52,14 @@ func MaxRune(r rune) Option {
 func MinRune(r rune) Option {
 	return func(g *Generator) error {
 		g.minRune = &r
+		return nil
+	}
+}
+
+// OnlyGraphic filters non-visible characters
+func OnlyGraphic(b bool) Option {
+	return func(g *Generator) error {
+		g.graphic = b
 		return nil
 	}
 }
@@ -195,6 +205,10 @@ func (g *Generator) filter(in, exclude string) string {
 			continue
 		}
 		if strings.ContainsRune(exclude, r) {
+			continue
+		}
+		if g.graphic && !unicode.IsGraphic(r) {
+			fmt.Println("non-graphic", r)
 			continue
 		}
 		out.WriteRune(r)
